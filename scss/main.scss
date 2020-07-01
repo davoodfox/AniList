@@ -1,0 +1,40 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+.heading-primary {
+  font-size: 6rem;
+}
+
+.search {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  &__input {
+    margin: 0 auto;
+    font-size: 4rem;
+    height: 4rem;
+  }
+  &__button {
+    margin-right: 5rem;
+    margin-top: 1rem;
+    padding: 0.4rem;
+    background-color: burlywood;
+    border: 0.7rem solid navajowhite;
+    cursor: pointer;
+  }
+}

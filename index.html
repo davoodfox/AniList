@@ -4,13 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AniList API</title>
-    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="js/app.js" defer></script>
   </head>
   <body>
-    <h1>AniList</h1>
+    <h1 class="heading-primary">Anime</h1>
+    <form id="mediaForm" class="search__form">
+      <input type="text" id="mediaInput" class="search__input" />
+      <button id="mediaBtn" class="search__button">Search</button>
+    </form>
 
-    <input type="text" id="mediaInput" />
-    <button id="mediaBtn">Get</button>
     <h2 id="searchQuery"></h2>
     <ul id="list"></ul>
     <div>
