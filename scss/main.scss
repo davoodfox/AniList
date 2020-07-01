@@ -18,6 +18,21 @@ body {
   font-size: 6rem;
 }
 
+.btn {
+  font-size: 2rem;
+  padding: 0.8rem 1rem;
+  background-color: transparent;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0px 1px 3px #ccc;
+  transition: all 0.1s;
+  &:hover {
+    box-shadow: 0px 3px 8px #ccc;
+    transform: translateY(-2px);
+  }
+}
+
 .search {
   &__form {
     display: flex;
@@ -32,9 +47,5 @@ body {
   &__button {
     margin-right: 5rem;
     margin-top: 1rem;
-    padding: 0.4rem;
-    background-color: burlywood;
-    border: 0.7rem solid navajowhite;
-    cursor: pointer;
   }
 }
