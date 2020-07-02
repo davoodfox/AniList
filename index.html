@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AniList API</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/main.css" />
     <script src="js/app.js" defer></script>
   </head>
@@ -14,9 +18,9 @@
       <button id="mediaBtn" class="btn search__button">Search</button>
     </form>
 
-    <h2 id="searchQuery"></h2>
+    <h2 id="searchQuery" class="search__message"></h2>
     <ul id="list"></ul>
-    <div class="pagination">
+    <div id="pagination" class="pagination">
       <button id="previousBtn" class="btn pagination__button">Previous</button>
       <button id="nextBtn" class="btn pagination__button">Next</button>
     </div>
