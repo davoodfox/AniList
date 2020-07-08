@@ -1,59 +1,76 @@
 // We have buttons in UI which can change query variables or trigger a request. With fetchSetup we configure query variables and pass them as parameters to our fetchMedia function and then call it.
 // For now we configure search and page
 
-// Stores current page details
-const mainObj = {
-  query: "",
-  page: 1,
-};
+const EVT = new EventEmitter2();
 
-// Gets search query from user
-const getSearchQuery = function () {
-  const mediaInput = document.getElementById("mediaInput");
-  const mediaInputValue = mediaInput.value;
-  if (mediaInputValue !== "") {
-    mainObj.query = mediaInputValue;
-    mainObj.page = 1;
-    mediaInput.value = "";
+const PageInfo = (function () {
+  var page, query;
+  EVT.on("page-info-updated", function (obj) {
+    page = obj.page;
+    query = obj.query;
+  });
+  function init() {
+    return {
+      page: page,
+      query: query,
+    };
+  }
+  return {
+    init: init,
+  };
+})();
+
+const SearchForm = (function () {
+  document.getElementById("searchForm").addEventListener("click", function (e) {
+    e.preventDefault();
+  });
+  function SearchButtonClickHandler() {
+    searchInput = document.getElementById("searchInput");
+    if (searchInput.value == "") {
+      alert("Please fill in the search bar");
+      return;
+    }
+    const pageInfo = {
+      page: 1,
+      query: searchInput.value,
+    };
+    searchInput.value = "";
+    EVT.emit("page-info-updated", pageInfo);
     document.getElementById(
       "searchQuery"
-    ).innerText = `Showing results for: ${mainObj.query}`;
+    ).innerText = `Showing results for: ${pageInfo.query}`;
   }
+  document
+    .getElementById("searchButton")
+    .addEventListener("click", SearchButtonClickHandler);
+})();
 
-  if (mediaInputValue === "") {
-    alert("Please fill in the search bar");
-    return;
-  }
-};
-
-// Defines each click event
-const clickHandler = function () {
-  if (this.id === "mediaBtn") {
-    getSearchQuery();
-  }
-  if (this.id === "previousBtn") {
-    if (mainObj.page !== 1) {
-      mainObj.page--;
+const Pagination = (function () {
+  const pagination = document.getElementById("pagination");
+  pagination.addEventListener("click", function (e) {
+    pageInfo = PageInfo.init();
+    if (e.target.id == "previousBtn") {
+      if (pageInfo.page != 1) {
+        pageInfo.page--;
+      }
     }
-  }
-  if (this.id === "nextBtn") {
-    mainObj.page++;
-  }
-  fetchMedia(mainObj.query, mainObj.page).then(showResults);
-  document.body.scrollTop = 0; // For Safari
-  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-};
+    if (e.target.id == "nextBtn") {
+      pageInfo.page++;
+    }
+    EVT.emit("page-info-updated", pageInfo);
+  });
+})();
 
-// Event listeners which trigger clickHandler
-document.getElementById("mediaForm").addEventListener("click", function (e) {
-  e.preventDefault();
-});
-document.getElementById("mediaBtn").addEventListener("click", clickHandler);
-document.getElementById("previousBtn").addEventListener("click", clickHandler);
-document.getElementById("nextBtn").addEventListener("click", clickHandler);
+const GraphQl = (function () {
+  EVT.on("page-info-updated", function (obj) {
+    fetchMedia(obj.page, obj.query).then(showResults);
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  });
+})();
 
 // By using graphql, fetchMedia triggers a query request and receives data. Then it formats the data in the form of an array of objects which we can retrieve and manipulate data from using forEach.
-const fetchMedia = async (search, page) => {
+const fetchMedia = async (page, search) => {
   // Checkout https://anilist.gitbook.io/anilist-apiv2-docs/
   // And https://anilist.co/graphiql
   const query = `
@@ -174,7 +191,7 @@ const showResults = (data) => {
     entry.linkNames.forEach((element, index) => {
       linkList.innerHTML += `<li class="list__item__links__item"><a href="${entry.linkUrls[index]}" class="list__item__links__link">${element}</a></li>`;
     });
-    console.log(entry.linkNames, entry.linkUrls);
+    // console.log(entry.linkNames, entry.linkUrls);
   });
   document.getElementById("pagination").style.display = "flex";
 };

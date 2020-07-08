@@ -9,13 +9,15 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/main.css" />
+    <script src="js/eventemitter2.js" defer></script>
+
     <script src="js/app.js" defer></script>
   </head>
   <body>
     <h1 class="heading-primary">Anime</h1>
-    <form id="mediaForm" class="search__form">
-      <input type="text" id="mediaInput" class="search__input" />
-      <button id="mediaBtn" class="btn search__button">Search</button>
+    <form id="searchForm" class="search__form">
+      <input type="text" id="searchInput" class="search__input" />
+      <button id="searchButton" class="btn search__button">Search</button>
     </form>
 
     <h2 id="searchQuery" class="search__message"></h2>
